@@ -16,8 +16,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data android:name="AA_DB_NAME" android:value="activeandroid.db" />
-        <meta-data android:name="AA_DB_VERSION" android:value="1" />
+
+        <meta-data
+            android:name="AA_DB_NAME"
+            android:value="activeandroid.db" />
+        <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="1" />
+
+        <activity
+            android:name=".SummaryActivity"
+            android:label="@string/title_activity_summary" >
+        </activity>
     </application>
 
 </manifest>

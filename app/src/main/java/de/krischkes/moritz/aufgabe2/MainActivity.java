@@ -1,37 +1,69 @@
 package de.krischkes.moritz.aufgabe2;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+import com.activeandroid.ActiveAndroid;
 
 public class MainActivity extends Activity {
+
+    EditText startOrtText, zielOrtText, entfernungText, datumText;
+    Button changeButton, okButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ActiveAndroid.initialize(getApplication());
+
+        //get views
+
+        startOrtText = (EditText)findViewById(R.id.startOrt);
+        zielOrtText = (EditText)findViewById(R.id.zielOrt);
+        entfernungText = (EditText)findViewById(R.id.entfernung);
+        datumText = (EditText)findViewById(R.id.datum);
+
+        changeButton = (Button)findViewById(R.id.changeButton);
+        okButton = (Button)findViewById(R.id.okButton);
+
+        //onClick for change
+        changeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent changeIntent = new Intent(getBaseContext(), SummaryActivity.class);
+                startActivity(changeIntent);
+            }
+        });
+
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveEntry();
+            }
+        });
+
+
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+    public void saveEntry(){
+        String startOrt="";
+        String zielOrt="";
+        String datum="";
+        int entfernung = 0;
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        startOrt=startOrtText.getText().toString();
+        zielOrt=zielOrtText.getText().toString();
+        datum=datumText.getText().toString();
+        entfernung= Integer.valueOf((entfernungText.getText().toString()));
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        Fahrt tempFahrt = new Fahrt(entfernung,startOrt,zielOrt,datum);
+        tempFahrt.save();
     }
 }
